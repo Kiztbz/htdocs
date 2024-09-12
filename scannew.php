@@ -217,7 +217,7 @@ $output = ob_get_clean(); // Capture and clean the buffer
     <header>
         <div class="logo">$-$quare $ecurity</div>
         <div class="navlinks">
-            <a href="index.html">Home</a>
+            <a href="scannew.php">Home</a>
             <a href="tips.html">Tips</a>
             <a href="about.html">About</a>
         </div>
