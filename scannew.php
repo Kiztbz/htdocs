@@ -118,7 +118,7 @@ function checkSQLInjection($url, $param)
         }
     }
     if (empty($c)) {
-        return "No SQL Injection vulnerability detected at $test_url. Response: <pre>" . htmlspecialchars($response) . "</pre>";
+        // return "No SQL Injection vulnerability detected at $test_url. Response: <pre>" . htmlspecialchars($response) . "</pre>";
 
     } else {
         return implode("<br>", $c);
