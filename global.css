@@ -216,7 +216,7 @@ tooltip span {
 }
 
 .tipcol {
-    width: 400px;
+    width: 30%;
     margin: 0px auto;
 }
 
@@ -224,7 +224,6 @@ tooltip span {
     width: 100%;
     padding: 10px;
     border-radius: 8px;
-    background-color: var(--c1);
     margin: auto;
     text-align: start;
     font-size: 12px;
@@ -243,4 +242,5 @@ tooltip span {
     margin: 10px;
     padding: 10px;
     border-radius: 8px;
+    background-color: var(--c1);
 }

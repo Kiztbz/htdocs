@@ -32,12 +32,13 @@ function scanPorts($host, $ports = [], $timeout = 1)
         $connection = @fsockopen($host, $port, $errno, $errstr, $timeout);
         if ($connection) {
             $service = getService($port);
-            echo "Port $port ($service) is open on $host.<br>";
+            // echo "Port $port ($service) is open on $host.<br>";
             $openPorts[] = ['port' => $port, 'service' => $service];
             fclose($connection);
-        } else {
-            echo "Port $port is closed on $host.<br>";
         }
+        // else {
+        //     echo "Port $port is closed on $host.<br>";
+        // }
     }
     return $openPorts;
 }
@@ -126,62 +127,92 @@ function checkSQLInjection($url, $param)
 }
 
 
-function checkXSS($url)
+function checkXSS($domain)
 {
+    // Get the list of URLs from the Wayback Machine API
+    $waybackUrls = getWaybackUrls($domain);
+
+    // If the result is not an array, it means there was an error (string returned)
+    if (!is_array($waybackUrls)) {
+        return $waybackUrls; // Return the error message
+    }
+
+    // XSS payload
     $xss_payload = '<script>alert("XSS")</script>';
-    $parsed_url = parse_url($url);
 
-    if (!isset($parsed_url['query'])) {
-        return "Invalid URL or no query parameters found. Ensure the URL contains query parameters.";
+    // Loop through each URL from the Wayback Machine
+    foreach ($waybackUrls as $url) {
+        $parsed_url = parse_url($url);
+
+        if (!isset($parsed_url['query'])) {
+            echo "Skipping URL: $url (No query parameters found)\n";
+            continue;
+        }
+
+        parse_str($parsed_url['query'], $params);
+
+        // Build the test URL with the XSS payload injected
+        $test_url = $parsed_url['scheme'] . "://" . $parsed_url['host'] . $parsed_url['path'];
+        $test_url .= '?' . http_build_query(array_map(function ($v) use ($xss_payload) {
+            return $xss_payload;
+        }, $params), '', '&', PHP_QUERY_RFC3986);
+
+        // Set up cURL to send the request
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $test_url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3');
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+
+        $response = curl_exec($ch);
+        $error = curl_error($ch);
+        curl_close($ch);
+
+        if ($response === false) {
+            echo "Failed to fetch URL: $url (Error: $error)\n";
+            continue; // Move on to the next URL
+        }
+
+        // Check if the response contains the XSS payload
+        if (stripos($response, htmlentities($xss_payload)) !== false || stripos($response, $xss_payload) !== false) {
+            echo "XSS vulnerability found at $url\n";
+        } else {
+            echo "No XSS vulnerability detected at $url\n";
+        }
     }
-
-    parse_str($parsed_url['query'], $params);
-
-    $test_url = $parsed_url['scheme'] . "://" . $parsed_url['host'] . $parsed_url['path'];
-    $test_url .= '?' . http_build_query(array_map(function ($v) use ($xss_payload) {
-        return $xss_payload;
-    }, $params), '', '&', PHP_QUERY_RFC3986);
-
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $test_url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3');
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-
-    $response = curl_exec($ch);
-    $error = curl_error($ch);
-    curl_close($ch);
-
-    if ($response === false) {
-        return "Failed to fetch the URL: $error";
-    }
-
-
-    if (stripos($response, $xss_payload) !== false) {
-        return "XSS vulnerability found at $test_url";
-    }
-
-    return "No XSS vulnerability detected at $test_url.";
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $action = $_POST['action'];
     $host = filter_var($_POST['host'], FILTER_SANITIZE_STRING);
     $domain = filter_var($_POST['domain'], FILTER_SANITIZE_URL);
-    #$url = filter_var($_POST['url'], FILTER_SANITIZE_URL);
-    #$param = filter_var($_POST['param'], FILTER_SANITIZE_STRING);
+    $xss = filter_var($_POST['xss'], FILTER_SANITIZE_URL);
+    // $param = filter_var($_POST['param'], FILTER_SANITIZE_STRING);
 
+    echo $xss;
     if ($action === 'port_scan') {
-        echo "<h2>Scanning Ports on $host:</h2>";
-
+        $timestamp = time();
+        $currentDate = gmdate('Y-m-d', $timestamp);
+        echo "
+    <h1>Port Scanner Actionable Report</h1>
+    <h2>1. Executive Summary</h2>
+    <p>Provide an overview of the port scan's purpose, key findings, and risks identified.</p>
+    <br>
+    <p>Scan Date: $currentDate </p>
+    <br>
+    <p>Target(s): $test_url </p>
+    <br>
+    <p>Purpose: Assess the network's attack surface by identifying open ports and exposed services. </p>
+    <br>
+    <p>Key Findings: </p>
+";
         $portsToScan = array_keys($GLOBALS['serviceMap']);
         $openPorts = scanPorts($host, $portsToScan);
 
-        echo "<h3>Open ports:</h3>";
         foreach ($openPorts as $portInfo) {
-            echo "Port: " . $portInfo['port'] . " - Service: " . $portInfo['service'] . "<br>";
+            echo "Port " . $portInfo['port'] . " with potential vulnerabilities<br>";
         }
 
     } elseif ($action === 'wayback_sql_injection') {
@@ -234,6 +265,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <code>cursor.execute('\SELECT * FROM users WHERE username = %s'\, (username,))<code>
                 ";
         }
+    } elseif ($action === 'check_xss') {
+        echo checkXSS($xss);
     }
 }
 
