@@ -14,13 +14,13 @@ SQL Injection is a web security vulnerability that allows attackers to interfere
   - Time-based blind SQL Injection
 
 
-#### 4. **Impact**
+#### 3. **Impact**
 - **Data Leakage:** Attackers can retrieve sensitive information like usernames, passwords, emails, credit card details, etc.
 - **Data Manipulation:** They can modify or delete data in the database.
 - **Authentication Bypass:** Attackers can gain unauthorized access to accounts or systems.
 - **Remote Code Execution:** In severe cases, attackers can execute system-level commands.
 
-#### 5. **Actionable Steps for Mitigation**
+#### 4. **Actionable Steps for Mitigation**
 1. **Input Validation:** 
    - Ensure that all inputs are strictly validated and sanitized.
    - Use input validation libraries to reject harmful SQL queries.

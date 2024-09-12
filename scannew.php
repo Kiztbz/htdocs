@@ -108,12 +108,21 @@ function checkSQLInjection($url, $param)
     }
     curl_close($ch);
     $sqli_patterns = ['SQL', 'database', 'syntax;', 'warning', 'mysql_fetch', 'mysqli', 'pg_query', "MySQL"];
+    $c = [];
     foreach ($sqli_patterns as $pattern) {
         if (stripos($response, $pattern) !== false) {
-            return "SQL Injection vulnerability found at $test_url (Pattern: $pattern)";
+            $c[] = "Location: $url <br> Vulnerable Parameter: $param <br><br>";
+        }
+        if (count($c) == 5) {
+            break;
         }
     }
-    return "No SQL Injection vulnerability detected at $test_url. Response: <pre>" . htmlspecialchars($response) . "</pre>";
+    if (empty($c)) {
+        return "No SQL Injection vulnerability detected at $test_url. Response: <pre>" . htmlspecialchars($response) . "</pre>";
+
+    } else {
+        return implode("<br>", $c);
+    }
 }
 
 
@@ -176,26 +185,54 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
     } elseif ($action === 'wayback_sql_injection') {
-        echo "<h2>Wayback Machine Parameter Extraction for $domain:</h2>";
+        echo "<h2>Actionable Report: SQL Injection Vulnerability</h2>
+        <h2>1. Vulnerability Overview </h2>
+        <p>
+        SQL Injection is a web security vulnerability that allows attackers to interfere with the queries an application makes to its database. It generally occurs when untrusted data is inserted into a SQL query without proper validation or sanitization, allowing the attacker to execute arbitrary SQL code.
+        </p>
+        <br>
+        <h2>2. Identified Vulnerability</h2>
+        ";
 
         $waybackUrls = getWaybackUrls($domain);
         if (is_string($waybackUrls)) {
             echo $waybackUrls;
         } else {
-            echo "Found URLs:<br>";
+            // echo "Found URLs:<br>";
             foreach ($waybackUrls as $waybackUrl) {
-                echo htmlspecialchars($waybackUrl) . "<br>";
+                // echo htmlspecialchars($waybackUrl) . "<br>";
 
                 $params = extractQueryParameters($waybackUrl);
                 if (!empty($params)) {
-                    echo "Testing SQL injection for parameters: " . implode(", ", $params) . "<br>";
+                    // echo "Testing SQL injection for parameters: " . implode(", ", $params) . "<br>";
                     foreach ($params as $param) {
                         echo checkSQLInjection($waybackUrl, $param);
                     }
                 } else {
-                    echo "No query parameters found for $waybackUrl.<br>";
+                    // echo "No query parameters found for $waybackUrl.<br>";
                 }
             }
+            echo "
+            Risk Level: High <br> Type of SQL Injection: <br>- Error-based <br>- Union-based <br>- Blind SQL Injection <br>- Time-based blind SQL Injection<br><br>
+                <h2>3. Impact</h2>
+                <p>
+                - Data Leakage:** Attackers can retrieve sensitive information like usernames, passwords, emails, credit card details, etc.<br>
+                - Data Manipulation:** They can modify or delete data in the database.<br>
+                - Authentication Bypass:** Attackers can gain unauthorized access to accounts or systems.<br>
+                - Remote Code Execution:** In severe cases, attackers can execute system-level commands.<br>
+                </p>
+                <br>
+                <h2>4. Actionable Steps for Mitigation</h2>
+                <h3>1. Input Validation:</h3>
+                <p>
+                - Ensure that all inputs are strictly validated and sanitized.<br>
+                - Use input validation libraries to reject harmful SQL queries.<br>
+                - Apply whitelisting for specific characters allowed in input fields.<br>
+                </p>
+                <h3>2. Parameterized Queries (Prepared Statements):</h3>
+                - Always use parameterized queries or prepared statements for SQL queries to avoid direct inclusion of user inputs.<br>
+                <code>cursor.execute('\SELECT * FROM users WHERE username = %s'\, (username,))<code>
+                ";
         }
     }
 }
@@ -261,7 +298,9 @@ $output = ob_get_clean(); // Capture and clean the buffer
                 <span id="tooltip2">TOOLTIP : SQL Injection is a security vulnerability where an attacker can manipulate
                     SQL queries by inserting malicious code through untrusted input. This can lead to unauthorized
                     access or manipulation of a database. </span>
-                <span id="tooltip3">TOOLTIP : An XSS (Cross-Site Scripting) attack lets an attacker inject malicious scripts into a website, which then execute in victims' browsers. This can steal sensitive information like cookies or session tokens. </span>
+                <span id="tooltip3">TOOLTIP : An XSS (Cross-Site Scripting) attack lets an attacker inject malicious
+                    scripts into a website, which then execute in victims' browsers. This can steal sensitive
+                    information like cookies or session tokens. </span>
             </tooltip>
             <div class="credit">$-$quare $ecurity</div>
         </div>
