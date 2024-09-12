@@ -32,16 +32,17 @@ function scanPorts($host, $ports = [], $timeout = 1)
         $connection = @fsockopen($host, $port, $errno, $errstr, $timeout);
         if ($connection) {
             $service = getService($port);
-            // echo "Port $port ($service) is open on $host.<br>";
+            echo "Port $port ($service) is open on $host.<br>";
             $openPorts[] = ['port' => $port, 'service' => $service];
             fclose($connection);
         } else {
-            // echo "Port $port is closed on $host.<br>";
+            echo "Port $port is closed on $host.<br>";
         }
     }
     return $openPorts;
 }
 
+// More functions (getWaybackUrls, extractQueryParameters, checkSQLInjection, checkXSS)...
 function getWaybackUrls($domain)
 {
     $waybackApiUrl = "http://web.archive.org/cdx/search/cdx?url={$domain}*&fl=original&collapse=urlkey&output=json";
@@ -115,6 +116,7 @@ function checkSQLInjection($url, $param)
     return "No SQL Injection vulnerability detected at $test_url. Response: <pre>" . htmlspecialchars($response) . "</pre>";
 }
 
+
 function checkXSS($url)
 {
     $xss_payload = '<script>alert("XSS")</script>';
@@ -147,6 +149,7 @@ function checkXSS($url)
         return "Failed to fetch the URL: $error";
     }
 
+
     if (stripos($response, $xss_payload) !== false) {
         return "XSS vulnerability found at $test_url";
     }
@@ -154,90 +157,12 @@ function checkXSS($url)
     return "No XSS vulnerability detected at $test_url.";
 }
 
-function checkRateLimit($url, $maxAttempts = 5) {
-    $rateLimited = false;
-    $initialResponseTime = 0;
-    $thresholdTime = 2; // 2 seconds response threshold for rate limiting detection
-
-    for ($i = 1; $i <= $maxAttempts; $i++) {
-        $startTime = microtime(true); // Start timer
-        $response = sendRequest($url); // Send request to the URL
-        $endTime = microtime(true); // End timer
-
-        $responseTime = $endTime - $startTime;
-
-        // Track the response time of the first attempt
-        if ($i == 1) {
-            $initialResponseTime = $responseTime;
-        }
-
-        // If subsequent response times significantly exceed the initial one, consider it rate limiting
-        if ($responseTime > $initialResponseTime + $thresholdTime) {
-            $rateLimited = true;
-            break;
-        }
-
-        // Optional delay between requests to simulate normal user behavior
-        sleep(1);
-    }
-
-    return $rateLimited ? "Rate limiting detected." : "No rate limiting detected.";
-}
-
-// Function to check password criteria on the password setup form page
-function checkPasswordCriteria($url) {
-    $html = file_get_contents($url); // Fetch the webpage content
-
-    $criteria = array();
-
-    // Check if there's a minimum password length (HTML5 attribute)
-    if (strpos($html, 'minlength') !== false) {
-        $criteria[] = "Minimum password length validation detected.";
-    }
-
-    // Check for password strength pattern (HTML5 pattern attribute)
-    if (strpos($html, 'pattern') !== false) {
-        $criteria[] = "Pattern validation detected (regex for password strength).";
-    }
-
-    // Check for JavaScript-based password validation (keywords in JavaScript code)
-    if (preg_match('/(?i)(password).*(?i)(validation|check|strength)/', $html)) {
-        $criteria[] = "JavaScript password validation detected.";
-    }
-
-    return !empty($criteria) ? implode("\n", $criteria) : "No password criteria detected.";
-}
-
-// Helper function to send an HTTP GET request to the URL
-function sendRequest($url) {
-    $options = array(
-        'http' => array(
-            'method'  => 'GET',
-            'timeout' => 5  // Timeout after 5 seconds
-        )
-    );
-    $context  = stream_context_create($options);
-    $response = @file_get_contents($url, false, $context); // Suppress warnings if unable to connect
-
-    return $response ? $response : "No response from server.";
-}
-
-// Example usage
-$targetUrl = 'https://example.com/signup'; // Replace with actual signup or login page URL
-
-// Check for rate limiting
-echo "Rate Limit Check:\n";
-echo checkRateLimit($targetUrl);
-
-// Check for password criteria on the form
-echo "\n\nPassword Criteria Check:\n";
-echo checkPasswordCriteria($targetUrl);
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $action = $_POST['action'];
     $host = filter_var($_POST['host'], FILTER_SANITIZE_STRING);
     $domain = filter_var($_POST['domain'], FILTER_SANITIZE_URL);
-    $xss = filter_var($_POST['xss'], FILTER_SANITIZE_URL);
+    #$url = filter_var($_POST['url'], FILTER_SANITIZE_URL);
+    #$param = filter_var($_POST['param'], FILTER_SANITIZE_STRING);
 
     if ($action === 'port_scan') {
         echo "<h2>Scanning Ports on $host:</h2>";
@@ -272,9 +197,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
             }
         }
-    } elseif ($action === 'check_xss') {
-        echo "<h2>Checking XSS for $xss:</h2>";
-        echo checkXSS($xss);
     }
 }
 
@@ -283,17 +205,19 @@ $output = ob_get_clean(); // Capture and clean the buffer
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="global.css">
     <title>S-square Security</title>
 </head>
+
 <body>
     <header>
         <div class="logo">$-$quare $ecurity</div>
         <div class="navlinks">
-            <a href="scannew.php">Home</a>
+            <a href="index.html">Home</a>
             <a href="tips.html">Tips</a>
             <a href="about.html">About</a>
         </div>
@@ -323,8 +247,8 @@ $output = ob_get_clean(); // Capture and clean the buffer
                     </div>
 
                     <div class="in" id="xssInput">
-                        <label for="url">Domain (for XSS Injection):</label>
-                        <input type="text" id="url" name="url">
+                        <label for="xss">Domain (for XSS Injection):</label>
+                        <input type="text" id="xss" name="xss">
                     </div>
 
                     <input class="submit" type="submit" value="Submit">
@@ -337,9 +261,7 @@ $output = ob_get_clean(); // Capture and clean the buffer
                 <span id="tooltip2">TOOLTIP : SQL Injection is a security vulnerability where an attacker can manipulate
                     SQL queries by inserting malicious code through untrusted input. This can lead to unauthorized
                     access or manipulation of a database. </span>
-                <span id="tooltip3">TOOLTIP : An XSS (Cross-Site Scripting) attack lets an attacker inject malicious
-                    scripts into a website, which then execute in victims' browsers. This can steal sensitive
-                    information like cookies or session tokens. </span>
+                <span id="tooltip3">TOOLTIP : An XSS (Cross-Site Scripting) attack lets an attacker inject malicious scripts into a website, which then execute in victims' browsers. This can steal sensitive information like cookies or session tokens. </span>
             </tooltip>
             <div class="credit">$-$quare $ecurity</div>
         </div>
@@ -399,11 +321,215 @@ $output = ob_get_clean(); // Capture and clean the buffer
             } else if (selectedOption === "wayback_sql_injection") {
                 domainInput.style.display = "flex";
                 t2.style.display = "flex";
-            } else if (selectedOption === "check_xss") {
+            }
+            else if (selectedOption === "check_xss") {
                 xssInput.style.display = "flex";
                 t3.style.display = "flex";
             }
         });
     </script>
+
+    <style>
+        @font-face {
+            font-family: "Poppins";
+            font-weight: normal;
+            font-style: normal;
+            src: url("/fonts/Poppins/Poppins-Medium.ttf");
+        }
+
+        @font-face {
+            font-family: "Handjet";
+            font-weight: normal;
+            font-style: normal;
+            src: url("/fonts/Handjet/Handjet-VariableFont_ELGR\,ELSH\,wght.ttf");
+        }
+
+        * {
+            margin: 0px;
+            padding: 0px;
+            transition: 0.5s ease-in-out;
+            font-family: Poppins;
+        }
+
+        *::-webkit-scrollbar {
+            width: 5px;
+            border-radius: 20px;
+        }
+
+        :root {
+            --c1: black;
+            /*Color1*/
+            --c2: rgb(18, 255, 18);
+            /*Color2*/
+            --tc: rgb(18, 255, 18);
+            /*Text-Color*/
+            --btc: #e9d6b8;
+            /*Button-Text-Color*/
+        }
+
+        [data-theme="light"] {
+            --c1: #e9d6b8;
+            /*Color1*/
+            --c2: linear-gradient(#ddc595, #8b7449);
+            /*Color2*/
+            --tc: black;
+            /*Text-Color*/
+            --btc: #e9d6b8;
+            /*Button-Text-Color*/
+        }
+
+        [data-theme="dark"] {
+            --bg: #e9d6b8;
+            --g1: linear-gradient(black, #4a3d28);
+            --tc: white;
+            --lc: ;
+            --btc: black;
+            --invert: invert(0%);
+            --invertoff: invert(100%);
+            /*Link-Colour*/
+        }
+
+        body {
+            background-color: var(--c1);
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: var(--tc);
+            background-image: url(/images/757530618600.jpg);
+            background-size: cover;
+            backdrop-filter: blur(5px);
+        }
+
+        h2 {
+            color: var(--tc);
+            font-family: Handjet;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 50px;
+            width: 90%;
+            margin: 20px auto;
+        }
+
+        a {
+            color: var(--tc);
+            text-decoration: none;
+        }
+
+        main {
+            display: flex;
+            margin: 50px auto;
+            width: 80%;
+        }
+
+        .card {
+            width: 400px;
+            height: 400px;
+            margin: auto;
+            border-radius: 10px;
+            border: 1px solid var(--tc);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 30px 30px 5px 30px;
+            background-color: var(--c1);
+        }
+
+        .outputcard {
+            width: 600px;
+            background-color: var(--c1);
+            overflow: scroll;
+        }
+
+        .outputcard h2 {
+            margin-bottom: 20px;
+        }
+
+        footer {
+            color: var(--tc);
+            width: 90%;
+            margin: auto;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /*HEADER*/
+        .logo {
+            width: 20%;
+            font-family: Handjet;
+            font-size: 35px;
+        }
+
+        .navlinks {
+            width: 50%;
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+        .navlinks a {
+            font-family: Handjet;
+            font-size: 25px;
+        }
+
+        .themebtn {
+            width: 10%;
+        }
+
+        /*FORM*/
+        .inputs {
+            width: 100%;
+        }
+
+        select,
+        input {
+            background-color: var(--c1);
+            color: var(--tc);
+            border-radius: 3px;
+            border: 2px solid var(--tc);
+            padding: 2px 5px;
+        }
+
+        input:active {
+            background-color: var(--c1);
+            color: var(--tc);
+        }
+
+        .outputbox {
+            width: 80%;
+            margin: auto;
+            overflow: auto;
+        }
+
+        .in {
+            display: flex;
+            flex-direction: column;
+            margin: 20px 0px;
+        }
+
+        .credit {
+            font-size: 10px;
+        }
+
+        .submit:hover {
+            background-color: var(--tc);
+            color: var(--c1);
+        }
+
+        tooltip span {
+            font-size: 20px;
+            font-family: Handjet;
+        }
+    </style>
 </body>
+
 </html>
