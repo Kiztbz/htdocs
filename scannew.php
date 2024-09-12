@@ -247,8 +247,8 @@ $output = ob_get_clean(); // Capture and clean the buffer
                     </div>
 
                     <div class="in" id="xssInput">
-                        <label for="xss">Domain (for XSS Injection):</label>
-                        <input type="text" id="xss" name="xss">
+                        <label for="url">Domain (for XSS Injection):</label>
+                        <input type="text" id="url" name="url">
                     </div>
 
                     <input class="submit" type="submit" value="Submit">
