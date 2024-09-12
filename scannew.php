@@ -154,7 +154,8 @@ function checkXSS($url)
     return "No XSS vulnerability detected at $test_url.";
 }
 
-function checkRateLimit($url, $maxAttempts = 5) {
+function checkRateLimit($url, $maxAttempts = 5)
+{
     $rateLimited = false;
     $initialResponseTime = 0;
     $thresholdTime = 2; // 2 seconds response threshold for rate limiting detection
@@ -185,7 +186,8 @@ function checkRateLimit($url, $maxAttempts = 5) {
 }
 
 // Function to check password criteria on the password setup form page
-function checkPasswordCriteria($url) {
+function checkPasswordCriteria($url)
+{
     $html = file_get_contents($url); // Fetch the webpage content
 
     $criteria = array();
@@ -209,14 +211,15 @@ function checkPasswordCriteria($url) {
 }
 
 // Helper function to send an HTTP GET request to the URL
-function sendRequest($url) {
+function sendRequest($url)
+{
     $options = array(
         'http' => array(
-            'method'  => 'GET',
+            'method' => 'GET',
             'timeout' => 5  // Timeout after 5 seconds
         )
     );
-    $context  = stream_context_create($options);
+    $context = stream_context_create($options);
     $response = @file_get_contents($url, false, $context); // Suppress warnings if unable to connect
 
     return $response ? $response : "No response from server.";
@@ -283,12 +286,14 @@ $output = ob_get_clean(); // Capture and clean the buffer
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="global.css">
     <title>S-square Security</title>
 </head>
+
 <body>
     <header>
         <div class="logo">$-$quare $ecurity</div>
@@ -406,4 +411,5 @@ $output = ob_get_clean(); // Capture and clean the buffer
         });
     </script>
 </body>
+
 </html>
