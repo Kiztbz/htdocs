@@ -129,6 +129,19 @@ function checkSQLInjection($url, $param)
 
 function checkXSS($domain)
 {
+    $timestamp = time();
+    $currentDate = gmdate('Y-m-d', $timestamp);
+    echo "
+    <h1>Actionable Report: Cross-Site Scripting (XSS) Vulnerability</h1>
+    <h2>Report Summary:</h2>
+    <p>
+    - Vulnerability Type: Cross-Site Scripting (XSS)<br>
+    - Severity: High<br>
+    - Tested URL/Endpoint: $domain <br>
+    - Date of Discovery: $currentDate <br>
+    </p>
+    ";
+
     // Get the list of URLs from the Wayback Machine API
     $waybackUrls = getWaybackUrls($domain);
 
@@ -145,7 +158,7 @@ function checkXSS($domain)
         $parsed_url = parse_url($url);
 
         if (!isset($parsed_url['query'])) {
-            echo "Skipping URL: $url (No query parameters found)\n";
+            // echo "Skipping URL: $url (No query parameters found)\n";
             continue;
         }
 
@@ -153,6 +166,7 @@ function checkXSS($domain)
 
         // Build the test URL with the XSS payload injected
         $test_url = $parsed_url['scheme'] . "://" . $parsed_url['host'] . $parsed_url['path'];
+        echo "- Affected Parameter: $test_url <br>";
         $test_url .= '?' . http_build_query(array_map(function ($v) use ($xss_payload) {
             return $xss_payload;
         }, $params), '', '&', PHP_QUERY_RFC3986);
@@ -177,11 +191,73 @@ function checkXSS($domain)
 
         // Check if the response contains the XSS payload
         if (stripos($response, htmlentities($xss_payload)) !== false || stripos($response, $xss_payload) !== false) {
-            echo "XSS vulnerability found at $url\n";
+            // echo "XSS vulnerability found at $url\n";
         } else {
-            echo "No XSS vulnerability detected at $url\n";
+            // echo "No XSS vulnerability detected at $url\n";
         }
     }
+    echo "
+    <p>
+    - Impact: Theft of user sessions, credentials, defacement, malicious redirects, or spreading malware.
+    </p>
+    <br><br>
+    <h2>Vulnerability Details:</h2>
+    <h3>Type of XSS</h3>
+    <p>
+    - Reflected XSS (Non-Persistent)
+    </p>
+    <h3>Vulnerable Parameter</h3>
+    <p>
+    - The parameter is not properly sanitized or escaped before being rendered back on the page, leading to an XSS vulnerability.
+    </p>
+    <br>
+
+    <h2>Technical Details:</h2>
+    <p>
+    - The web application directly reflects user input back into the HTML page without adequate sanitization or escaping. This allows an attacker to inject malicious scripts that will be executed in the user's browser.<br>
+    - This specific XSS vulnerability was identified in the search feature, but other forms or parameters could potentially be vulnerable.<br>
+    </p>
+    <br>
+    <h2>Business Impact</h2>
+    <h3>- Security Risks</h3>
+    <p>
+        - Session Hijacking: Attackers can steal session cookies, impersonating users and gaining access to their accounts.<br>
+        - Data Theft: Sensitive information (e.g., credentials, personal information) can be stolen.<br>
+        - Browser Exploitation: Attackers could launch phishing attacks, deploy malware, or deface the website.<br>
+        - Reputation Damage: The vulnerability could lead to a loss of user trust, legal repercussions, and non-compliance with security regulations.<br>
+    </p>
+    <br>
+    <h2>Recommendations:</h2>
+    <h3>1. Input Sanitization:</h3>
+    <p>
+    - Sanitize all user input fields to ensure malicious scripts are not accepted. Use functions to remove or escape special characters (like `<`, `>`, `\"`, `&`, etc.).
+    </p>
+    <br><br>
+    <h2>2. Output Encoding:</h2>
+    <p>
+    - Encode user-generated content before outputting it into the HTML page to prevent script execution.
+    </p>
+    <br><br>
+    <h2>3. Implement Content Security Policy (CSP):</h2>
+    <p>
+    - A CSP header helps mitigate the impact of XSS by preventing the execution of untrusted scripts.
+    </p>
+    <br><br>
+    <h2>4. Server-Side Validation:</h2>
+    <p>
+        - Ensure that input is validated both on the client and server side. Only allow expected inputs and reject dangerous ones.
+    </p>
+    <br><br>
+    <h2>5. Use Web Application Firewall (WAF):</h2>
+    <p>
+    - Implement a WAF to help detect and block malicious requests targeting XSS vulnerabilities.
+    </p>
+    <br><br>
+    <h2>6. JavaScript Frameworks:</h2>
+    <p>
+    - Use modern JavaScript frameworks such as React or Angular, which inherently offer protection against XSS by escaping user input by default.
+    </p>
+";
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -191,7 +267,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $xss = filter_var($_POST['xss'], FILTER_SANITIZE_URL);
     // $param = filter_var($_POST['param'], FILTER_SANITIZE_STRING);
 
-    echo $xss;
     if ($action === 'port_scan') {
         $timestamp = time();
         $currentDate = gmdate('Y-m-d', $timestamp);
@@ -199,13 +274,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <h1>Port Scanner Actionable Report</h1>
     <h2>1. Executive Summary</h2>
     <p>Provide an overview of the port scan's purpose, key findings, and risks identified.</p>
-    <br>
     <p>Scan Date: $currentDate </p>
-    <br>
-    <p>Target(s): $test_url </p>
-    <br>
+    <p>Target: $host </p>
     <p>Purpose: Assess the network's attack surface by identifying open ports and exposed services. </p>
-    <br>
     <p>Key Findings: </p>
 ";
         $portsToScan = array_keys($GLOBALS['serviceMap']);
@@ -214,6 +285,83 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         foreach ($openPorts as $portInfo) {
             echo "Port " . $portInfo['port'] . " with potential vulnerabilities<br>";
         }
+        echo "
+        <br>
+        <h2>2. Vulnerabilities and Remediation</h2>
+        <h3>High-Risk Ports</h3>
+        <h4>Port 3389 (RDP)</h4>
+        <p>Risk: The RDP port is filtered, but exposure could lead to brute-force or man-in-the-middle attacks.
+        <br>
+        Action:
+        <br>
+        Ensure multi-factor authentication is enabled.
+        <br>
+        Restrict RDP access to trusted IPs using a firewall or VPN.
+        <br>
+        Regularly update RDP service to prevent exploits.
+        </p>
+        <h4>Port 22 (SSH)</h4>
+        <p>
+        Risk: Open SSH service exposes the system to password-guessing attacks.
+        <br>
+        Action:
+        <br>
+        Disable password-based logins; use SSH keys.
+        <br>
+        Restrict SSH access to trusted IPs.
+        <br>
+        Implement tools like Fail2Ban to block malicious login attempts.
+        </p>
+        <br>
+
+        <h3>Medium-Risk Ports</h3>
+        <h4>Port 80 (HTTP)</h4>
+        <p>
+        Risk: HTTP traffic is unencrypted, making it vulnerable to interception.
+        <br>
+        Action:
+        <br>
+        Redirect all HTTP traffic to HTTPS.
+        <br>
+        Ensure SSL certificates are up to date.
+        </p>
+        <br>
+
+        <h3>Low-Risk Ports</h3>
+        <h4>Port 443 (HTTPS)</h4>
+        <p>
+        Risk: Generally considered safe, but outdated SSL/TLS configurations could be exploited.
+        <br>
+        Action:
+        <br>
+        Regularly audit SSL/TLS settings for weak ciphers or protocols.
+        </p>
+        <br>
+        <br>
+
+        <h2>3. Recommended Actions and Next Steps</h2>
+        <p>
+        Immediate Actions (Within 24-48 hours)
+        <br>
+        <br>
+        Restrict access to high-risk ports (e.g., RDP, SSH) using a firewall or VPN.
+Update outdated services (e.g., OpenSSH, Apache) to their latest versions.
+Short-Term Actions (Within 1-2 weeks)
+<br>
+<br>
+
+Implement network segmentation to isolate critical services.
+Enable logging and monitoring for unusual activity on exposed ports.
+Set up automated vulnerability scanning for continuous monitoring.
+Long-Term Actions (Within 1-3 months)
+<br>
+<br>
+
+Conduct a full vulnerability assessment, including web applications and database services.
+Develop a patch management strategy to keep all services updated.
+Train staff on security best practices and hardening techniques.
+        </p>
+        ";
 
     } elseif ($action === 'wayback_sql_injection') {
         echo "<h2>Actionable Report: SQL Injection Vulnerability</h2>

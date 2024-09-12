@@ -18,7 +18,7 @@
 - **Reflected XSS (Non-Persistent)**
 
 #### **Vulnerable Parameter**:
-- The `search_query` parameter was found to be vulnerable. The parameter is not properly sanitized or escaped before being rendered back on the page, leading to an XSS vulnerability.
+- The parameter is not properly sanitized or escaped before being rendered back on the page, leading to an XSS vulnerability.
 
 
 #### **Technical Details**:
