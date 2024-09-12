@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="global.css">
+    <title>S-square Security</title>
+</head>
+
+<body>
+    <header>
+        <div class="logo">$-$quare $ecurity</div>
+        <div class="navlinks">
+            <a href="index.html">Home</a>
+            <a href="tips.html">Tips</a>
+            <a href="about.html">About</a>
+        </div>
+        <!-- <div class="themebtn">T</div> -->
+    </header>
+
+    <main>
+        <div class="card inputcard">
+            <h2>INPUT</h2>
+            <div class="inputs">
+                <form method="post" action="scannew.php">
+                    <label for="action">Select Action:</label>
+                    <select id="action" name="action">
+                        <option value="port_scan">Port Scan</option>
+                        <!-- <option value="check_sql_injection">Check SQL Injection</option> -->
+                        <option value="wayback_sql_injection">Wayback Machine SQL Injection</option>
+                        <!-- <option value="check_xss">Check XSS</option> -->
+                    </select>
+
+                    <div class="in" id="hostInput">
+                        <label for="host">Host (for port scan):</label>
+                        <input type="text" id="host" name="host">
+                    </div>
+
+                    <div class="in" id="domainInput">
+                        <label for="domain">Domain (for Wayback Machine):</label>
+                        <input type="text" id="domain" name="domain">
+                    </div>
+
+                    <input class="submit" type="submit" value="Submit">
+                </form>
+            </div>
+            <tooltip>
+                <span id="tooltip1">TOOLTIP : A port scanner is a tool used to probe a computer or network for open
+                    ports. Open ports are communication endpoints that accept data, which can indicate running services
+                    or applications. </span>
+                <span id="tooltip2">TOOLTIP : SQL Injection is a security vulnerability where an attacker can manipulate
+                    SQL queries by inserting malicious code through untrusted input. This can lead to unauthorized
+                    access or manipulation of a database. </span>
+            </tooltip>
+            <div class="credit">$-$quare $ecurity</div>
+        </div>
+        <div class="card outputcard">
+            <h2>Report</h2>
+            <div class="outputbox">
+                <?php
+                    // Display the captured output in the correct box
+                    echo $output;
+                ?>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="logo">$-$quare $ecurity</div>
+        <div class="team">
+            <a href="#">Falcon</a>
+            <a href="#">Kiz</a>
+            <a href="#">Manas</a>
+            <a href="#">Arsh</a>
+        </div>
+    </footer>
+
+    <script>
+        // Get dropdown and input elements
+        const dropdown = document.getElementById("action");
+        const hostInput = document.getElementById("hostInput");
+        const domainInput = document.getElementById("domainInput");
+        const t1 = document.getElementById("tooltip1");
+        const t2 = document.getElementById("tooltip2");
+
+        // Hide all inputs by default
+        domainInput.style.display = "none";
+        t2.style.display = "none";
+
+        // Event listener to show/hide input fields based on selected action
+        dropdown.addEventListener("change", function () {
+            const selectedOption = dropdown.value;
+
+            // Hide both input fields by default
+            hostInput.style.display = "none";
+            domainInput.style.display = "none";
+            t1.style.display = "none";
+            t2.style.display = "none";
+
+            // Show the correct input field based on selected option
+            if (selectedOption === "port_scan") {
+                hostInput.style.display = "flex";
+                t1.style.display = "flex";
+            } else if (selectedOption === "wayback_sql_injection") {
+                domainInput.style.display = "flex";
+                t2.style.display = "flex";
+            }
+        });
+    </script>
+
+
+</body>
+
+</html>
