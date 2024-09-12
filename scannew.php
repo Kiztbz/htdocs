@@ -32,11 +32,11 @@ function scanPorts($host, $ports = [], $timeout = 1)
         $connection = @fsockopen($host, $port, $errno, $errstr, $timeout);
         if ($connection) {
             $service = getService($port);
-            // echo "Port $port ($service) is open on $host.<br>";
+            echo "Port $port ($service) is open on $host.<br>";
             $openPorts[] = ['port' => $port, 'service' => $service];
             fclose($connection);
         } else {
-            // echo "Port $port is closed on $host.<br>";
+            echo "Port $port is closed on $host.<br>";
         }
     }
     return $openPorts;
@@ -217,7 +217,7 @@ $output = ob_get_clean(); // Capture and clean the buffer
     <header>
         <div class="logo">$-$quare $ecurity</div>
         <div class="navlinks">
-            <a href="scannew.php">Home</a>
+            <a href="index.html">Home</a>
             <a href="tips.html">Tips</a>
             <a href="about.html">About</a>
         </div>
@@ -261,9 +261,7 @@ $output = ob_get_clean(); // Capture and clean the buffer
                 <span id="tooltip2">TOOLTIP : SQL Injection is a security vulnerability where an attacker can manipulate
                     SQL queries by inserting malicious code through untrusted input. This can lead to unauthorized
                     access or manipulation of a database. </span>
-                <span id="tooltip3">TOOLTIP : An XSS (Cross-Site Scripting) attack lets an attacker inject malicious
-                    scripts into a website, which then execute in victims' browsers. This can steal sensitive
-                    information like cookies or session tokens. </span>
+                <span id="tooltip3">TOOLTIP : An XSS (Cross-Site Scripting) attack lets an attacker inject malicious scripts into a website, which then execute in victims' browsers. This can steal sensitive information like cookies or session tokens. </span>
             </tooltip>
             <div class="credit">$-$quare $ecurity</div>
         </div>
@@ -331,7 +329,207 @@ $output = ob_get_clean(); // Capture and clean the buffer
         });
     </script>
 
+    <style>
+        @font-face {
+            font-family: "Poppins";
+            font-weight: normal;
+            font-style: normal;
+            src: url("/fonts/Poppins/Poppins-Medium.ttf");
+        }
 
+        @font-face {
+            font-family: "Handjet";
+            font-weight: normal;
+            font-style: normal;
+            src: url("/fonts/Handjet/Handjet-VariableFont_ELGR\,ELSH\,wght.ttf");
+        }
+
+        * {
+            margin: 0px;
+            padding: 0px;
+            transition: 0.5s ease-in-out;
+            font-family: Poppins;
+        }
+
+        *::-webkit-scrollbar {
+            width: 5px;
+            border-radius: 20px;
+        }
+
+        :root {
+            --c1: black;
+            /*Color1*/
+            --c2: rgb(18, 255, 18);
+            /*Color2*/
+            --tc: rgb(18, 255, 18);
+            /*Text-Color*/
+            --btc: #e9d6b8;
+            /*Button-Text-Color*/
+        }
+
+        [data-theme="light"] {
+            --c1: #e9d6b8;
+            /*Color1*/
+            --c2: linear-gradient(#ddc595, #8b7449);
+            /*Color2*/
+            --tc: black;
+            /*Text-Color*/
+            --btc: #e9d6b8;
+            /*Button-Text-Color*/
+        }
+
+        [data-theme="dark"] {
+            --bg: #e9d6b8;
+            --g1: linear-gradient(black, #4a3d28);
+            --tc: white;
+            --lc: ;
+            --btc: black;
+            --invert: invert(0%);
+            --invertoff: invert(100%);
+            /*Link-Colour*/
+        }
+
+        body {
+            background-color: var(--c1);
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: var(--tc);
+            background-image: url(/images/757530618600.jpg);
+            background-size: cover;
+            backdrop-filter: blur(5px);
+        }
+
+        h2 {
+            color: var(--tc);
+            font-family: Handjet;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 50px;
+            width: 90%;
+            margin: 20px auto;
+        }
+
+        a {
+            color: var(--tc);
+            text-decoration: none;
+        }
+
+        main {
+            display: flex;
+            margin: 50px auto;
+            width: 80%;
+        }
+
+        .card {
+            width: 400px;
+            height: 400px;
+            margin: auto;
+            border-radius: 10px;
+            border: 1px solid var(--tc);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 30px 30px 5px 30px;
+            background-color: var(--c1);
+        }
+
+        .outputcard {
+            width: 600px;
+            background-color: var(--c1);
+            overflow: scroll;
+        }
+
+        .outputcard h2 {
+            margin-bottom: 20px;
+        }
+
+        footer {
+            color: var(--tc);
+            width: 90%;
+            margin: auto;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /*HEADER*/
+        .logo {
+            width: 20%;
+            font-family: Handjet;
+            font-size: 35px;
+        }
+
+        .navlinks {
+            width: 50%;
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+        .navlinks a {
+            font-family: Handjet;
+            font-size: 25px;
+        }
+
+        .themebtn {
+            width: 10%;
+        }
+
+        /*FORM*/
+        .inputs {
+            width: 100%;
+        }
+
+        select,
+        input {
+            background-color: var(--c1);
+            color: var(--tc);
+            border-radius: 3px;
+            border: 2px solid var(--tc);
+            padding: 2px 5px;
+        }
+
+        input:active {
+            background-color: var(--c1);
+            color: var(--tc);
+        }
+
+        .outputbox {
+            width: 80%;
+            margin: auto;
+            overflow: auto;
+        }
+
+        .in {
+            display: flex;
+            flex-direction: column;
+            margin: 20px 0px;
+        }
+
+        .credit {
+            font-size: 10px;
+        }
+
+        .submit:hover {
+            background-color: var(--tc);
+            color: var(--c1);
+        }
+
+        tooltip span {
+            font-size: 20px;
+            font-family: Handjet;
+        }
+    </style>
 </body>
 
 </html>
