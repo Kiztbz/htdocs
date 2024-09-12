@@ -261,9 +261,7 @@ $output = ob_get_clean(); // Capture and clean the buffer
                 <span id="tooltip2">TOOLTIP : SQL Injection is a security vulnerability where an attacker can manipulate
                     SQL queries by inserting malicious code through untrusted input. This can lead to unauthorized
                     access or manipulation of a database. </span>
-                <span id="tooltip3">TOOLTIP : SQL Injection is a security vulnerability where an attacker can manipulate
-                    SQL queries by inserting malicious code through untrusted input. This can lead to unauthorized
-                    access or manipulation of a database. </span>
+                <span id="tooltip3">TOOLTIP : An XSS (Cross-Site Scripting) attack lets an attacker inject malicious scripts into a website, which then execute in victims' browsers. This can steal sensitive information like cookies or session tokens. </span>
             </tooltip>
             <div class="credit">$-$quare $ecurity</div>
         </div>
