@@ -211,11 +211,11 @@ tooltip span {
     text-align: center;
 }
 
-.tips{
+.tips {
     display: flex;
 }
 
-.tipcol{
+.tipcol {
     width: 400px;
     margin: 0px auto;
 }
@@ -236,6 +236,7 @@ tooltip span {
     font-family: Handjet;
     color: red;
 }
+
 .tip p {
     font-size: 20px;
     border: 1px solid var(--tc);
