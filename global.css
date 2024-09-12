@@ -58,9 +58,8 @@
 
 body {
     background-color: var(--c1);
-    height: 100vh;
+    min-height: 100vh;
     width: 100%;
-    overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -68,6 +67,8 @@ body {
     background-image: url(/images/757530618600.jpg);
     background-size: cover;
     backdrop-filter: blur(5px);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 h2 {
