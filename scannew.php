@@ -502,7 +502,6 @@ $output = ob_get_clean(); // Capture and clean the buffer
                 // Display the captured output in the correct box
                 echo $output;
                 ?>
-
             </div>
             <div class="loader" id="loader" style="display: none;">
                 <div class="rl-loading-container">
