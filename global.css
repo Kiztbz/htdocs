@@ -28,6 +28,7 @@
 *::-webkit-scrollbar {
     width: 5px;
     border-radius: 20px;
+    transition: 0.5s ease-in-out;
 }
 
 :root {
@@ -73,7 +74,7 @@ body {
     color: var(--tc);
     background-image: url(/images/757530618600.jpg);
     background-size: cover;
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(3px);
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
@@ -132,7 +133,6 @@ footer {
     color: var(--tc);
     width: 90%;
     margin: auto;
-    height: 30px;
 }
 
 form {
@@ -290,14 +290,14 @@ tooltip span {
 
 .problems,
 .solutions,
-.team {
+.team1 {
     text-align: center;
     margin: 80px auto;
 }
 
 .problems h2,
 .solutions h2,
-.team h2 {
+.team1 h2 {
     font-family: Handjet;
     font-size: 40px;
     margin: 20px auto;

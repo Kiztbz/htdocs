@@ -438,7 +438,7 @@ $output = ob_get_clean(); // Capture and clean the buffer
     <header>
         <div class="logo">$-$quare $ecurity</div>
         <div class="navlinks">
-            <a href="index.html">Home</a>
+            <a href="scannew.php">Home</a>
             <a href="tips.html">Tips</a>
             <a href="about.html">About</a>
         </div>
@@ -454,7 +454,7 @@ $output = ob_get_clean(); // Capture and clean the buffer
                     <select id="action" name="action">
                         <option value="port_scan">Port Scan</option>
                         <option value="wayback_sql_injection">SQL Injection</option>
-                        <option value="check_xss">Check XSS</option>
+                        <option value="check_xss">XSS</option>
                     </select>
 
                     <div class="in" id="hostInput">
@@ -495,6 +495,14 @@ $output = ob_get_clean(); // Capture and clean the buffer
                 // Display the captured output in the correct box
                 echo $output;
                 ?>
+
+            </div>
+            <div class="loader" id="loader" style="display: none;">
+                <div class="rl-loading-container">
+                    <div class="rl-loading-thumb rl-loading-thumb-1"></div>
+                    <div class="rl-loading-thumb rl-loading-thumb-2"></div>
+                    <div class="rl-loading-thumb rl-loading-thumb-3"></div>
+                </div>
             </div>
             <button id="download-pdf">Download PDF</button>
         </div>
@@ -506,6 +514,63 @@ $output = ob_get_clean(); // Capture and clean the buffer
             <a href="#">Stuck Loop</a>
         </div>
     </footer>
+
+    <script>
+        const form = document.querySelector("form");
+        const loader = document.getElementById("loader");
+
+        form.addEventListener("submit", function () {
+            loader.style.display = "block"; // Show the loader
+        });
+    </script>
+
+    <style>
+        .loader {
+            transform: translate(0px, -35px);
+        }
+
+        .rl-loading-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .rl-loading-thumb {
+            width: 10px;
+            height: 40px;
+            background-color: #41f3fd;
+            margin: 4px;
+            box-shadow: 0 0 12px 3px #0882ff;
+            animation: rl-loading 1.5s ease-in-out infinite;
+        }
+
+        .rl-loading-thumb-1 {
+            animation-delay: 0s;
+        }
+
+        .rl-loading-thumb-2 {
+            animation-delay: 0.5s;
+        }
+
+        .rl-loading-thumb-3 {
+            animation-delay: 1s;
+        }
+
+        @keyframes rl-loading {
+            0% {}
+
+            20% {
+                background: white;
+                transform: scale(1.5);
+            }
+
+            40% {
+                background: #41f3fd;
+                transform: scale(1);
+            }
+        }
+    </style>
 
     <script>
         document.getElementById("download-pdf").addEventListener("click", function () {
@@ -606,8 +671,7 @@ $output = ob_get_clean(); // Capture and clean the buffer
         }
 
         *::-webkit-scrollbar {
-            width: 5px;
-            border-radius: 20px;
+            display: none;
         }
 
         :root {
@@ -654,7 +718,7 @@ $output = ob_get_clean(); // Capture and clean the buffer
             color: var(--tc);
             background-image: url(/images/757530618600.jpg);
             background-size: cover;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(3px);
         }
 
         card h2 {
@@ -712,7 +776,6 @@ $output = ob_get_clean(); // Capture and clean the buffer
             color: var(--tc);
             width: 90%;
             margin: auto;
-            height: 30px;
         }
 
         form {
@@ -832,7 +895,7 @@ $output = ob_get_clean(); // Capture and clean the buffer
             background-color: var(--c1);
             border: 2px solid var(--tc);
             color: var(--tc);
-            transform: translate(0px, 5px);
+            transform: translate(0px, -15px);
         }
     </style>
 </body>
