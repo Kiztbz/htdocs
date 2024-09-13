@@ -503,10 +503,7 @@ $output = ob_get_clean(); // Capture and clean the buffer
     <footer>
         <div class="logo">$-$quare $ecurity</div>
         <div class="team">
-            <a href="#">Falcon</a>
-            <a href="#">Kiz</a>
-            <a href="#">Manas</a>
-            <a href="#">Arsh</a>
+            <a href="#">Stuck Loop</a>
         </div>
     </footer>
 
@@ -715,6 +712,7 @@ $output = ob_get_clean(); // Capture and clean the buffer
             color: var(--tc);
             width: 90%;
             margin: auto;
+            height: 30px;
         }
 
         form {
