@@ -428,7 +428,9 @@ $output = ob_get_clean(); // Capture and clean the buffer
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="global.css">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap">
     <title>S-square Security</title>
 </head>
 
@@ -448,7 +450,7 @@ $output = ob_get_clean(); // Capture and clean the buffer
             <h2>INPUT</h2>
             <div class="inputs">
                 <form method="post" action="scannew.php">
-                    <label for="action">Select Action:</label>
+                    <label for="action">Select Scan:</label>
                     <select id="action" name="action">
                         <option value="port_scan">Port Scan</option>
                         <option value="wayback_sql_injection">SQL Injection</option>
@@ -456,7 +458,7 @@ $output = ob_get_clean(); // Capture and clean the buffer
                     </select>
 
                     <div class="in" id="hostInput">
-                        <label for="host">Host (for port scan):</label>
+                        <label for="host">Domain (for port scan):</label>
                         <input type="text" id="host" name="host">
                     </div>
 
@@ -516,8 +518,15 @@ $output = ob_get_clean(); // Capture and clean the buffer
             var clone = element.cloneNode(true);
 
             // Apply PDF-specific styles
-            clone.style.backgroundColor = 'black'; // Set background color to black
-            clone.style.color = 'white'; // Set text color to white for visibility
+            clone.style.backgroundColor = 'white'; // Set background color to white
+            clone.style.color = 'black'; // Set text color to black for visibility
+            clone.style.fontFamily = 'Poppins, sans-serif'; // Set font to Poppins
+
+            // Apply styles to all h2 tags within the cloned element
+            var h2Tags = clone.getElementsByTagName('h2');
+            for (var i = 0; i < h2Tags.length; i++) {
+                h2Tags[i].style.color = 'black'; // Set h2 color to black
+            }
 
             var opt = {
                 margin: 1,
@@ -583,6 +592,7 @@ $output = ob_get_clean(); // Capture and clean the buffer
             font-style: normal;
             src: url("/fonts/Poppins/Poppins-Medium.ttf");
         }
+
 
         @font-face {
             font-family: "Handjet";
@@ -650,9 +660,10 @@ $output = ob_get_clean(); // Capture and clean the buffer
             backdrop-filter: blur(5px);
         }
 
-        h2 {
+        card h2 {
             color: var(--tc);
-            font-family: Handjet;
+            font-family: Handjet !important;
+            font-size: 30px;
         }
 
         header {
@@ -677,7 +688,7 @@ $output = ob_get_clean(); // Capture and clean the buffer
 
         .card {
             width: 400px;
-            height: 400px;
+            height: 500px;
             margin: auto;
             border-radius: 10px;
             border: 1px solid var(--tc);
@@ -691,6 +702,7 @@ $output = ob_get_clean(); // Capture and clean the buffer
 
         .outputcard {
             width: 600px;
+            height: 500px;
             background-color: var(--c1);
             overflow: scroll;
         }
@@ -741,9 +753,13 @@ $output = ob_get_clean(); // Capture and clean the buffer
         input {
             background-color: var(--c1);
             color: var(--tc);
-            border-radius: 3px;
             border: 2px solid var(--tc);
             padding: 2px 5px;
+            border-radius: 8px;
+        }
+
+        label {
+            margin-top: 12px;
         }
 
         input:active {
@@ -752,9 +768,10 @@ $output = ob_get_clean(); // Capture and clean the buffer
         }
 
         .outputbox {
-            width: 80%;
+            width: 90%;
             margin: auto;
             overflow: auto;
+            margin-bottom: 50px;
         }
 
         .in {
@@ -767,14 +784,57 @@ $output = ob_get_clean(); // Capture and clean the buffer
             font-size: 10px;
         }
 
-        .submit:hover {
+        .submit {
+            width: 60%;
+            margin: auto;
+            margin-top: 20px;
+            border-radius: 20px;
+            padding: 5px 0px;
+        }
+
+        .submit:hover,
+        #download-pdf:hover {
             background-color: var(--tc);
             color: var(--c1);
         }
 
         tooltip span {
+            font-size: 16px;
+            font-family: Roboto;
+        }
+
+        /*OUTUT BOX*/
+        .outputbox h1 {
+            font-size: 30px;
+            font-weight: 600;
+        }
+
+        .outputbox h2 {
+            font-size: 26px;
+        }
+
+        .outputbox h3 {
+            font-size: 22px;
+            font-weight: 500;
+        }
+
+        .outputbox h4 {
             font-size: 20px;
-            font-family: Handjet;
+            font-weight: 500;
+        }
+
+        .outputbox p {
+            font-size: 14px;
+            font-size: 100;
+        }
+
+        #download-pdf {
+            padding: 5px 10px;
+            border-radius: 8px;
+            background-color: var(--c1);
+            border: 2px solid var(--tc);
+            color: var(--tc);
+            transform: translate(0px, 5px);
         }
     </style>
 </body>
