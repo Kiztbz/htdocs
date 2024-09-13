@@ -109,21 +109,12 @@ function checkSQLInjection($url, $param)
     }
     curl_close($ch);
     $sqli_patterns = ['SQL', 'database', 'syntax;', 'warning', 'mysql_fetch', 'mysqli', 'pg_query', "MySQL"];
-    $c = [];
     foreach ($sqli_patterns as $pattern) {
         if (stripos($response, $pattern) !== false) {
-            $c[] = "Location: $url <br> Vulnerable Parameter: $param <br><br>";
-        }
-        if (count($c) == 5) {
-            break;
+            return "SQL Injection vulnerability found at $test_url (Pattern: $pattern)";
         }
     }
-    if (empty($c)) {
-        // return "No SQL Injection vulnerability detected at $test_url. Response: <pre>" . htmlspecialchars($response) . "</pre>";
-
-    } else {
-        return implode("<br>", $c);
-    }
+    //return "No SQL Injection vulnerability detected at $test_url. Response: <pre>" . htmlspecialchars($response) . "</pre>";
 }
 
 
