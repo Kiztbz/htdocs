@@ -428,6 +428,7 @@ $output = ob_get_clean(); // Capture and clean the buffer
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="global.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
     <title>S-square Security</title>
 </head>
 
@@ -487,12 +488,13 @@ $output = ob_get_clean(); // Capture and clean the buffer
         </div>
         <div class="card outputcard">
             <h2>Report</h2>
-            <div class="outputbox">
+            <div class="outputbox" id="outputbox">
                 <?php
                 // Display the captured output in the correct box
                 echo $output;
                 ?>
             </div>
+            <button id="download-pdf">Download PDF</button>
         </div>
     </main>
 
@@ -505,6 +507,31 @@ $output = ob_get_clean(); // Capture and clean the buffer
             <a href="#">Arsh</a>
         </div>
     </footer>
+
+    <script>
+        document.getElementById("download-pdf").addEventListener("click", function () {
+            var element = document.getElementById('outputbox');
+
+            // Clone the element and modify the clone for PDF
+            var clone = element.cloneNode(true);
+
+            // Apply PDF-specific styles
+            clone.style.backgroundColor = 'black'; // Set background color to black
+            clone.style.color = 'white'; // Set text color to white for visibility
+
+            var opt = {
+                margin: 1,
+                padding: 10,
+                filename: 'report.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 4 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+
+            // Generate the PDF and download it
+            html2pdf().from(clone).set(opt).save();
+        });
+    </script>
 
     <script>
         // Get dropdown and input elements
