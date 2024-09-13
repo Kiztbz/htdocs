@@ -409,8 +409,15 @@ Train staff on security best practices and hardening techniques.
                 - Apply whitelisting for specific characters allowed in input fields.<br>
                 </p>
                 <h3>2. Parameterized Queries (Prepared Statements):</h3>
-                - Always use parameterized queries or prepared statements for SQL queries to avoid direct inclusion of user inputs.<br>
-                <code>cursor.execute('\SELECT * FROM users WHERE username = %s'\, (username,))<code>
+                <p>- Always use parameterized queries or prepared statements for SQL queries to avoid direct inclusion of user inputs.</p>
+                <h3>3. Use Stored Procedures:</h3>
+                <p>- Implement stored procedures to handle data transactions, isolating SQL code from user input.</p>
+                <h3>4. Least Privilege Principle:</h3>
+                <p> - Limit database user privileges to only the required level. For instance, avoid allowing a web application database user to have DROP, DELETE, or UPDATE privileges unless necessary.</p>
+                <h3>5. Web Application Firewall (WAF):</h3>
+                <p>  - Use a WAF to detect and block SQL injection attempts based on suspicious patterns and anomalies.</p>
+                <h3>6. Error Handling:</h3>
+                <p>   - Avoid displaying detailed error messages that reveal database structures, query syntax, or vulnerable code paths to the end user.</p>
                 ";
         }
     } elseif ($action === 'check_xss') {
