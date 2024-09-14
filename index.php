@@ -447,7 +447,7 @@ $output = ob_get_clean(); // Capture and clean the buffer
         <div class="card inputcard">
             <h2>INPUT</h2>
             <div class="inputs">
-                <form method="post" action="scannew.php">
+                <form method="post" action="index.php">
                     <label for="action">Select Scan:</label>
                     <select id="action" name="action">
                         <option value="port_scan">Port Scan</option>
