@@ -868,6 +868,7 @@ $output = ob_get_clean(); // Capture and clean the buffer
         }
 
         .outputbox h2 {
+            
             font-size: 26px;
         }
 
