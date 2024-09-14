@@ -111,7 +111,7 @@ function checkSQLInjection($url, $param)
     $sqli_patterns = ['SQL', 'database', 'syntax;', 'warning', 'mysql_fetch', 'mysqli', 'pg_query', "MySQL"];
     foreach ($sqli_patterns as $pattern) {
         if (stripos($response, $pattern) !== false) {
-            return "SQL Injection vulnerability found at $test_url (Pattern: $pattern)";
+            return "SQL Injection vulnerability found at $test_url (Pattern: $pattern)<br><br>";
         }
     }
     //return "No SQL Injection vulnerability detected at $test_url. Response: <pre>" . htmlspecialchars($response) . "</pre>";
@@ -674,9 +674,9 @@ $output = ob_get_clean(); // Capture and clean the buffer
         :root {
             --c1: black;
             /*Color1*/
-            --c2: rgb(18, 255, 18);
+            --c2: #12fffb;
             /*Color2*/
-            --tc: rgb(18, 255, 18);
+            --tc: #12fffb;
             /*Text-Color*/
             --btc: #e9d6b8;
             /*Button-Text-Color*/
