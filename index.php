@@ -674,9 +674,9 @@ $output = ob_get_clean(); // Capture and clean the buffer
         :root {
             --c1: black;
             /*Color1*/
-            --c2: #12fffb;
+            --c2: #12ff12;
             /*Color2*/
-            --tc: #12fffb;
+            --tc: #12ff12;
             /*Text-Color*/
             --btc: #e9d6b8;
             /*Button-Text-Color*/
