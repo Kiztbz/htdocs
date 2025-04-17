@@ -7,8 +7,5 @@ COPY . /var/www/html/
 # Enable Apache rewrite module (optional)
 RUN a2enmod rewrite
 
-# (Optional) Set permissions - only if needed
-# RUN chown -R www-data:www-data /var/www/html
-
 # Expose port 80 for HTTP
 EXPOSE 80
