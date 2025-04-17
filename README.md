@@ -1,11 +1,20 @@
 # 💻 $-Square $ecurity
 
-🔍 A lightweight and beginner-friendly **Web Security Scanner** tool designed for new website owners and startups to scan their websites for common vulnerabilities. This tool offers **automated security testing** for:
-- 🔓 Open Port Scanning
-- 🛡️ SQL Injection Vulnerabilities
-- 💣 Cross-Site Scripting (XSS) Attacks
+🔍 A lightweight and beginner-friendly **Web Security Scanner** designed for new website owners and startups to scan their websites for common vulnerabilities.  
+This tool offers **automated security testing** for:
+
+- 🔓 Open Port Scanning  
+- 🛡️ SQL Injection Vulnerabilities  
+- 💣 Cross-Site Scripting (XSS) Attacks  
 
 It generates actionable reports, provides mitigation guidance, and includes educational tips — all wrapped in a sleek, hacker-themed UI.
+
+---
+
+## 🌐 Live Demo
+
+🎉 Try the tool instantly on Render:  
+👉 [https://security-scanner-vts4.onrender.com](https://security-scanner-vts4.onrender.com)
 
 ---
 
@@ -24,7 +33,7 @@ It generates actionable reports, provides mitigation guidance, and includes educ
 - Educates with prevention practices.  
 
 ✅ **Automated Report Generation**  
-- Scans produce a structured, clear **PDF report** with:  
+- Produces a structured, clear **PDF report** including:  
   - Executive summary  
   - Key findings  
   - Recommended mitigations  
@@ -41,18 +50,15 @@ It generates actionable reports, provides mitigation guidance, and includes educ
 ## 📸 Screenshots
 
 ### 🔐 Scanner & Report Generation
-![image](https://github.com/user-attachments/assets/6f7ae17a-d593-4617-bb67-5231425ceb6a)
-
-
+![Scanner](https://github.com/user-attachments/assets/6f7ae17a-d593-4617-bb67-5231425ceb6a)
 
 ### 🧠 Tips Section
-![image](https://github.com/user-attachments/assets/66fc6c38-81f4-4749-858a-eeb5599a59b9)
-
+![Tips](https://github.com/user-attachments/assets/66fc6c38-81f4-4749-858a-eeb5599a59b9)
 
 ### 👥 About Page
-![image](https://github.com/user-attachments/assets/03482c1f-5cc4-4e52-b827-971d7b84dfb1)
+![About](https://github.com/user-attachments/assets/03482c1f-5cc4-4e52-b827-971d7b84dfb1)
 
-> ⚠️ *Note: Screenshots are just a visual preview. For full functionality, run locally as shown below.*
+> ⚠️ *Note: Screenshots are just visual previews. For full functionality, try the [live demo](https://security-scanner-vts4.onrender.com) or run locally.*
 
 ---
 
@@ -60,11 +66,24 @@ It generates actionable reports, provides mitigation guidance, and includes educ
 
 ### Requirements
 - PHP (for backend scanning logic)
-- Localhost server (like XAMPP, WAMP)
-- Browser to view frontend
+- Localhost server (like XAMPP/WAMP)
+- Any modern browser
 
-### Setup Instructions
+---
 
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/Omfalcon/Security-scanner.git
+## 🛠️ Local Setup
+
+If you'd like to run it locally, follow these quick steps:
+
+```bash
+# Clone the repository
+git clone https://github.com/Omfalcon/Security-scanner.git
+cd Security-scanner
+
+# Move the project to your server's root directory (e.g., for XAMPP:)
+mv Security-scanner /xampp/htdocs/
+
+# Start Apache via your XAMPP/WAMP control panel
+
+# Then, open your browser and visit:
+http://localhost/Security-scanner
