@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="global.css">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <title>Tips | S-square Security</title>
+</head>
+
+<body>
+    <header>
+        <div class="logo">$-$quare $ecurity</div>
+        <div class="navlinks">
+            <a href="index.php">Home</a>
+            <a href="tips.html">Tips</a>
+            <a href="about.html">About</a>
+        </div>
+        <!-- <div class="themebtn">T</div> -->
+    </header>
+
+    <div class="tipsdiv">
+        <h1 class="pagehead">Tips by $-$quare $ecurity</h1>
+        <div class="tips">
+
+            <div class="tipcol">
+                <div class="tip">
+                    <h2>PORT SCANNER TIPS:- </h2>
+                </div>
+                <div class="tip">
+                    <h2></h2>
+                    <p>Apply Rate Limiting
+
+                        Rate-limit how many connection requests (SYN packets) a machine can handle from a single IP
+                        address in a short period. This can slow down or block fast, aggressive port scanning attempts.
+                    </p>
+                </div>
+                <div class="tip">
+                    <h2> This is a list of the most exploited ports and how they make the websites vulnerable:-
+                    </h2>
+                </div>
+                <div class="tip">
+                    <h2></h2>
+                    <p>FTP (21): Plaintext transmission of credentials. <br>
+
+                        SSH (22): Brute-force attacks on weak passwords. <br>
+
+                        Telnet (23): Unencrypted communication, exposing sensitive data. <br>
+
+                        SMTP (25): Open relays used for spamming. <br>
+
+                        DNS (53): DNS amplification attacks. <br>
+
+                        HTTP (80): Cross-Site Scripting (XSS). <br>
+
+                        POP3 (110): Plaintext authentication vulnerabilities. <br>
+
+                        IMAP (143): Man-in-the-Middle (MitM) attacks if not encrypted. <br>
+
+                        HTTPS (443): Misconfigured certificates leading to trust issues. <br>
+
+                        MySQL (3306): SQL Injection vulnerabilities. <br>
+
+                        PostgreSQL (5432): Default credentials and misconfigured access controls. <br>
+
+                        HTTP-Alt (8080): Same as HTTP, often used for administrative interfaces. <br>
+
+                        RDP (3389): Remote Desktop Protocol vulnerabilities leading to unauthorized access. <br>
+
+                        Redis (6379): Exposed interfaces can be exploited to execute arbitrary commands. <br>
+
+                        MongoDB (27017): Misconfigured databases leading to unauthorized data access. </p>
+                </div>
+            </div>
+
+            <div class="tipcol">
+                <div class="tip">
+                    <h2>SQL INJECTION ATTACKS PREVENTION TIPS:-</h2>
+                </div>
+                <div class="tip">
+                    <p>Use Stored Procedures: Combine stored procedures with other measures to reduce SQL injection
+                        risk, avoiding direct user input concatenation. </p>
+                </div>
+                <div class="tip">
+                    <h2></h2>
+                    <p>Validate and Sanitize Input: Ensure input meets expected formats and constraints. Sanitize to
+                        remove or escape dangerous characters. </p>
+                </div>
+                <div class="tip">
+                    <h2></h2>
+                    <p>Use ORM Tools: ORMs abstract SQL queries, reducing injection risk. Ensure the ORM handles queries
+                        securely. </p>
+                </div>
+                <div class="tip">
+                    <h2></h2>
+                    <p>Limit Database Permissions: Grant minimal necessary permissions to reduce potential damage if an
+                        attacker gains access. </p>
+                </div>
+                <div class="tip">
+                    <h2></h2>
+                    <p>Keep Software Updated: Regularly update your DBMS, frameworks, and software to patch
+                        vulnerabilities. </p>
+                </div>
+                <div class="tip">
+                    <h2></h2>
+                    <p>Employ Web Application Firewalls (WAFs): Filter out malicious requests with WAFs for an extra
+                        security layer. </p>
+                </div>
+                <div class="tip">
+                    <h2></h2>
+                    <p>Regularly Test Your Application: Perform security assessments and penetration testing to identify
+                        and fix vulnerabilities. </p>
+                </div>
+                <div class="tip">
+                    <h2></h2>
+                    <p>Escape User Input: Properly escape user input in dynamic SQL queries as a supplementary measure,
+                        though prepared statements are preferred. </p>
+                </div>
+                <div class="tip">
+                    <h2></h2>
+                    <p>Error Handling: Avoid displaying detailed errors to users. Log errors securely and show generic
+                        messages to protect database details. </p>
+                </div>
+                <div class="tip">
+                    <h2></h2>
+                    <p>Whitelist Inputs: Allow only approved input types and formats to prevent SQL injection attacks.
+                    </p>
+                </div>
+                <div class="tip">
+                    <h2></h2>
+                    <p>Raise Virtual or Physical Firewalls: Install web application firewalls (WAFs) to block malicious
+                        data and attacks. Use web firewalls to block harmful data and attacks. Some recommended options
+                        are:
+
+                        Cloudflare WAF
+
+                        AWS WAF
+                        These firewalls can be virtual or physical and help safeguard your applications by filtering out
+                        harmful traffic and protecting against vulnerabilities. </p>
+                </div>
+            </div>
+
+            <div class="tipcol">
+                <div class="tip">
+                    <h2>CROSS SITE SCRIPTING ATTACKS PREVENTION TIPS:- </h2>
+                </div>
+                <div class="tip">
+                    <p>Encode Data on Output: Encode user data based on the context before displaying it.
+
+
+
+                        In HTML: Convert non-whitelisted values to HTML entities.
+
+                        In JavaScript: Unicode-escape non-alphanumeric values.
+                        For complex cases, apply multiple encodings in order. For example, to embed user input in an
+                        event handler, first Unicode-escape, then HTML-encode. </p>
+                </div>
+                <div class="tip">
+                    <h2></h2>
+                    <p>Escape User Input: Always escape user-generated content before displaying it in HTML, JavaScript,
+                        or other contexts using context-specific libraries.</p>
+                </div>
+                <div class="tip">
+                    <h2></h2>
+                    <p>Use Content Security Policy (CSP): Implement CSP to limit where content can be loaded from,
+                        blocking unauthorized scripts.</p>
+                </div>
+                <div class="tip">
+                    <h2></h2>
+                    <p>Use HTTP only and Secure Cookies: Set cookies with HttpOnly and Secure flags to prevent
+                        JavaScript from accessing sensitive information.</p>
+                </div>
+                <div class="tip">
+                    <h2></h2>
+                    <p>Avoid Inline JavaScript: Minimize or avoid inline JavaScript and CSS. Use external files and
+                        configure CSP to allow only trusted scripts.</p>
+                </div>
+                <div class="tip">
+                    <h2></h2>
+                    <p>Use Frameworks with Built-In XSS Protection: Choose modern frameworks that offer built-in XSS
+                        protection and follow their security practices.</p>
+                </div>
+                <div class="tip">
+                    <h2></h2>
+                    <p>Regularly Update Software: Keep your web frameworks, libraries, and dependencies updated to fix
+                        known vulnerabilities. </p>
+                </div>
+                <div class="tip">
+                    <h2></h2>
+                    <p>Test for XSS Vulnerabilities: Conduct regular security assessments and penetration testing to
+                        find and fix XSS vulnerabilities. </p>
+                </div>
+                <div class="tip">
+                    <h2></h2>
+                    <p>Educate Developers: Ensure developers are aware of XSS risks and adhere to secure coding
+                        practices. </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <div class="logo">$-$quare $ecurity</div>
+        <div class="team">
+            <a href="#">Stuck Loop</a>
+        </div>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,341 @@
+@font-face {
+    font-family: "Poppins";
+    font-weight: normal;
+    font-style: normal;
+    src: url("/fonts/Poppins/Poppins-Medium.ttf");
+}
+
+@font-face {
+    font-family: "Roboto";
+    font-weight: normal;
+    font-style: normal;
+    src: url("/fonts/Roboto/Roboto-Medium.ttf");
+}
+
+@font-face {
+    font-family: "Handjet";
+    font-weight: normal;
+    font-style: normal;
+    src: url("/fonts/Handjet/Handjet-VariableFont_ELGR\,ELSH\,wght.ttf");
+}
+
+* {
+    margin: 0px;
+    padding: 0px;
+    transition: 0.5s ease-in-out;
+}
+
+*::-webkit-scrollbar {
+    width: 5px;
+    border-radius: 20px;
+    transition: 0.5s ease-in-out;
+}
+
+:root {
+    --c1: black;
+    /*Color1*/
+    --c2: #12ff12;
+    /*Color2*/
+    --tc: rgb(18, 255, 18);
+    /*Text-Color*/
+    --btc: #e9d6b8;
+    /*Button-Text-Color*/
+}
+
+[data-theme="light"] {
+    --c1: #e9d6b8;
+    /*Color1*/
+    --c2: linear-gradient(#ddc595, #8b7449);
+    /*Color2*/
+    --tc: black;
+    /*Text-Color*/
+    --btc: #e9d6b8;
+    /*Button-Text-Color*/
+}
+
+[data-theme="dark"] {
+    --bg: #e9d6b8;
+    --g1: linear-gradient(black, #4a3d28);
+    --tc: white;
+    --lc: ;
+    --btc: black;
+    --invert: invert(0%);
+    --invertoff: invert(100%);
+    /*Link-Colour*/
+}
+
+body {
+    background-color: var(--c1);
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: var(--tc);
+    background-image: url(/images/757530618600.jpg);
+    background-size: cover;
+    backdrop-filter: blur(3px);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+card h2 {
+    color: var(--tc);
+    font-family: Handjet;
+    font-size: 30px !important;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
+    width: 90%;
+    margin: 20px auto;
+}
+
+a {
+    color: var(--tc);
+    text-decoration: none;
+}
+
+main {
+    display: flex;
+    margin: 50px auto;
+    width: 80%;
+}
+
+.card {
+    width: 400px;
+    height: 400px;
+    margin: auto;
+    border-radius: 10px;
+    border: 1px solid var(--tc);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px 30px 5px 30px;
+    background-color: var(--c1);
+}
+
+.outputcard {
+    width: 600px;
+    background-color: var(--c1);
+    overflow: scroll;
+}
+
+.outputcard h2 {
+    margin-bottom: 20px;
+}
+
+footer {
+    color: var(--tc);
+    width: 90%;
+    margin: auto;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+/*HEADER*/
+.logo {
+    width: 20%;
+    font-family: Handjet;
+    font-size: 35px;
+}
+
+.navlinks {
+    width: 50%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.navlinks a {
+    font-family: Handjet;
+    font-size: 25px;
+}
+
+.themebtn {
+    width: 10%;
+}
+
+/*MAIN*/
+.pagehead {
+    font-family: Handjet !important;
+    margin: 20px;
+}
+
+/*FORM*/
+.inputs {
+    width: 100%;
+}
+
+select,
+input {
+    background-color: var(--c1);
+    color: var(--tc);
+    border-radius: 3px;
+    border: 2px solid var(--tc);
+    padding: 2px 5px;
+}
+
+input:active {
+    background-color: var(--c1);
+    color: var(--tc);
+}
+
+.outputbox {
+    width: 90%;
+    margin: auto;
+    overflow: auto;
+}
+
+.in {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0px;
+}
+
+.credit {
+    font-size: 10px;
+}
+
+.submit:hover {
+    background-color: var(--tc);
+    color: var(--c1);
+}
+
+tooltip span {
+    font-size: 16px;
+    font-family: Roboto;
+}
+
+/*TIPS PAGE*/
+.tipsdiv {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+}
+
+.tips {
+    display: flex;
+}
+
+.tipcol {
+    width: 30%;
+    margin: 0px auto;
+}
+
+.tip {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    margin: auto;
+    text-align: start;
+    font-size: 12px;
+    font-family: Roboto;
+}
+
+.tip h2 {
+    font-size: 24px;
+    font-family: Roboto;
+    color: red;
+}
+
+.tip p {
+    font-size: 16px;
+    border: 1px solid var(--tc);
+    margin: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: var(--c1);
+}
+
+/*OUTUT BOX*/
+.outputbox h1 {
+    font-size: 30px;
+}
+
+.outputbox h2 {
+    font-size: 28px;
+}
+
+.outputbox h3 {
+    font-size: 24px;
+}
+
+.outputbox h4 {
+    font-size: 20px;
+}
+
+.outputbox p {
+    font-size: 14px;
+    font-size: 100;
+}
+
+/*ABOUT*/
+.container {
+    width: 80%;
+    margin: auto;
+}
+
+.about-us {
+    text-align: center;
+    font-family: Handjet;
+    font-size: 30px;
+}
+
+.problems,
+.solutions,
+.team1 {
+    text-align: center;
+    margin: 80px auto;
+}
+
+.problems h2,
+.solutions h2,
+.team1 h2 {
+    font-family: Handjet;
+    font-size: 40px;
+    margin: 20px auto;
+}
+
+.problem-blocks,
+.solutions ul,
+.team-grid {
+    display: flex;
+}
+
+.problem-block,
+.solutions ul li,
+.team-member {
+    width: 25%;
+    margin: auto;
+    background-color: var(--c1);
+    padding: 20px;
+    border-radius: 8px;
+    height: 100px;
+    border: 1px solid var(--tc);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.team-member {
+    width: 18%;
+}
+
+.problem-block h3,
+.solutions ul li strong,
+.team-member h3 {
+    font-size: 25px;
+    font-family: Handjet;
+}
+
+@media only screen and (max-width: 600px) {
+    
+}
