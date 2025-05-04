@@ -436,7 +436,7 @@ $output = ob_get_clean(); // Capture and clean the buffer
     <header>
         <div class="logo">$-$quare $ecurity</div>
         <div class="navlinks">
-            <a href="index.html">Home</a>
+            <a href="index.php">Home</a>
             <a href="tips.html">Tips</a>
             <a href="about.html">About</a>
         </div>
@@ -643,6 +643,7 @@ $output = ob_get_clean(); // Capture and clean the buffer
             }
         });
     </script>
+
     <style>
         @font-face {
             font-family: "Poppins";
@@ -651,12 +652,6 @@ $output = ob_get_clean(); // Capture and clean the buffer
             src: url("/fonts/Poppins/Poppins-Medium.ttf");
         }
 
-        @font-face {
-            font-family: "Roboto";
-            font-weight: normal;
-            font-style: normal;
-            src: url("/fonts/Roboto/Roboto-Medium.ttf");
-        }
 
         @font-face {
             font-family: "Handjet";
@@ -669,20 +664,19 @@ $output = ob_get_clean(); // Capture and clean the buffer
             margin: 0px;
             padding: 0px;
             transition: 0.5s ease-in-out;
+            font-family: Poppins;
         }
 
         *::-webkit-scrollbar {
-            width: 5px;
-            border-radius: 20px;
-            transition: 0.5s ease-in-out;
+            display: none;
         }
 
         :root {
             --c1: black;
             /*Color1*/
-            --c2: #12ff12;
+            --c2: #12fffb;
             /*Color2*/
-            --tc: rgb(18, 255, 18);
+            --tc: #12fffb;
             /*Text-Color*/
             --btc: #e9d6b8;
             /*Button-Text-Color*/
@@ -712,8 +706,9 @@ $output = ob_get_clean(); // Capture and clean the buffer
 
         body {
             background-color: var(--c1);
-            min-height: 100vh;
+            height: 100vh;
             width: 100%;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -721,14 +716,12 @@ $output = ob_get_clean(); // Capture and clean the buffer
             background-image: url(/images/757530618600.jpg);
             background-size: cover;
             backdrop-filter: blur(3px);
-            background-repeat: no-repeat;
-            background-attachment: fixed;
         }
 
         card h2 {
             color: var(--tc);
-            font-family: Handjet;
-            font-size: 30px !important;
+            font-family: Handjet !important;
+            font-size: 30px;
         }
 
         header {
@@ -753,7 +746,7 @@ $output = ob_get_clean(); // Capture and clean the buffer
 
         .card {
             width: 400px;
-            height: 400px;
+            height: 500px;
             margin: auto;
             border-radius: 10px;
             border: 1px solid var(--tc);
@@ -767,6 +760,7 @@ $output = ob_get_clean(); // Capture and clean the buffer
 
         .outputcard {
             width: 600px;
+            height: 500px;
             background-color: var(--c1);
             overflow: scroll;
         }
@@ -808,12 +802,6 @@ $output = ob_get_clean(); // Capture and clean the buffer
             width: 10%;
         }
 
-        /*MAIN*/
-        .pagehead {
-            font-family: Handjet !important;
-            margin: 20px;
-        }
-
         /*FORM*/
         .inputs {
             width: 100%;
@@ -823,9 +811,13 @@ $output = ob_get_clean(); // Capture and clean the buffer
         input {
             background-color: var(--c1);
             color: var(--tc);
-            border-radius: 3px;
             border: 2px solid var(--tc);
             padding: 2px 5px;
+            border-radius: 8px;
+        }
+
+        label {
+            margin-top: 12px;
         }
 
         input:active {
@@ -837,6 +829,7 @@ $output = ob_get_clean(); // Capture and clean the buffer
             width: 90%;
             margin: auto;
             overflow: auto;
+            margin-bottom: 50px;
         }
 
         .in {
@@ -849,7 +842,16 @@ $output = ob_get_clean(); // Capture and clean the buffer
             font-size: 10px;
         }
 
-        .submit:hover {
+        .submit {
+            width: 60%;
+            margin: auto;
+            margin-top: 20px;
+            border-radius: 20px;
+            padding: 5px 0px;
+        }
+
+        .submit:hover,
+        #download-pdf:hover {
             background-color: var(--tc);
             color: var(--c1);
         }
@@ -859,62 +861,24 @@ $output = ob_get_clean(); // Capture and clean the buffer
             font-family: Roboto;
         }
 
-        /*TIPS PAGE*/
-        .tipsdiv {
-            width: 80%;
-            margin: auto;
-            text-align: center;
-        }
-
-        .tips {
-            display: flex;
-        }
-
-        .tipcol {
-            width: 30%;
-            margin: 0px auto;
-        }
-
-        .tip {
-            width: 100%;
-            padding: 10px;
-            border-radius: 8px;
-            margin: auto;
-            text-align: start;
-            font-size: 12px;
-            font-family: Roboto;
-        }
-
-        .tip h2 {
-            font-size: 24px;
-            font-family: Roboto;
-            color: red;
-        }
-
-        .tip p {
-            font-size: 16px;
-            border: 1px solid var(--tc);
-            margin: 10px;
-            padding: 10px;
-            border-radius: 8px;
-            background-color: var(--c1);
-        }
-
         /*OUTUT BOX*/
         .outputbox h1 {
             font-size: 30px;
+            font-weight: 600;
         }
 
         .outputbox h2 {
-            font-size: 28px;
+            font-size: 26px;
         }
 
         .outputbox h3 {
-            font-size: 24px;
+            font-size: 22px;
+            font-weight: 500;
         }
 
         .outputbox h4 {
             font-size: 20px;
+            font-weight: 500;
         }
 
         .outputbox p {
@@ -922,82 +886,13 @@ $output = ob_get_clean(); // Capture and clean the buffer
             font-size: 100;
         }
 
-        /*ABOUT*/
-        .container {
-            width: 80%;
-            margin: auto;
-        }
-
-        .about-us {
-            text-align: center;
-            font-family: Handjet;
-            font-size: 30px;
-        }
-
-        .problems,
-        .solutions,
-        .team1 {
-            text-align: center;
-            margin: 80px auto;
-        }
-
-        .problems h2,
-        .solutions h2,
-        .team1 h2 {
-            font-family: Handjet;
-            font-size: 40px;
-            margin: 20px auto;
-        }
-
-        .problem-blocks,
-        .solutions ul,
-        .team-grid {
-            display: flex;
-        }
-
-        .problem-block,
-        .solutions ul li,
-        .team-member {
-            width: 25%;
-            margin: auto;
-            background-color: var(--c1);
-            padding: 20px;
+        #download-pdf {
+            padding: 5px 10px;
             border-radius: 8px;
-            height: 100px;
-            border: 1px solid var(--tc);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-evenly;
-        }
-
-        .team-member {
-            width: 18%;
-        }
-
-        .problem-block h3,
-        .solutions ul li strong,
-        .team-member h3 {
-            font-size: 25px;
-            font-family: Handjet;
-        }
-
-        @media only screen and (max-width: 600px) {
-            main {
-                flex-direction: column;
-                width: 100%;
-            }
-
-            .card {
-                width: 70%;
-                height: 400px;
-                margin: 10px auto;
-            }
-
-            .outputbox {
-                margin: auto;
-                overflow: auto;
-            }
+            background-color: var(--c1);
+            border: 2px solid var(--tc);
+            color: var(--tc);
+            transform: translate(0px, -15px);
         }
     </style>
 </body>
